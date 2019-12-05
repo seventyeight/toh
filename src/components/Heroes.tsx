@@ -1,88 +1,45 @@
 import React, { ChangeEvent, Component } from 'react';
+import { Link } from 'react-router-dom';
+import { AppContext } from '../App';
+import { getHeroes } from '../hero.service';
+import '../Heroes.scss';
 import { Hero } from '../models';
 import { HeroDetail } from './HeroDetail';
 import { HeroListItem } from './HeroListItem';
 
 interface HeroState {
   selectedHero: Hero;
-  heroes: Hero[];
-  isLoading: boolean;
 }
 
-export default class Heroes extends Component<{}, HeroState> {
+export class HeroesComponent extends Component<{}, HeroState> {
+  // static contextType = AppContext;
   constructor(props: any) {
     super(props);
     this.state = {
-      selectedHero: { id: 0, name: '' },
-      heroes: [],
-      isLoading: true
+      selectedHero: { id: 0, name: '' }
     };
   }
-  componentDidMount() {
-    this.setState({ isLoading: true });
-    // fetch('./data/mock-heroes.json')
-    Promise.resolve<Hero[]>([
-      { id: 11, name: 'Mr. Nice' },
-      { id: 12, name: 'Narco' },
-      { id: 13, name: 'Bombasto' },
-      { id: 14, name: 'Celeritas' },
-      { id: 15, name: 'Magneta' },
-      { id: 16, name: 'RubberMan' },
-      { id: 17, name: 'Dynama' },
-      { id: 18, name: 'Dr IQ' },
-      { id: 19, name: 'Magma' },
-      { id: 20, name: 'Tornado' }
-    ])
-      // .then(res => res.json())
-      .then((heroes: Hero[]) => {
-        this.setState({ heroes, isLoading: false });
-      });
-  }
-
-  onChangeMod = (value: string) => {
-    this.setState({
-      selectedHero: {
-        id: this.state.selectedHero!.id,
-        name: value
-      }
-    });
-    this.setState({
-      heroes: this.state.heroes.map((hero: Hero) => {
-        if (hero.id === this.state.selectedHero!.id) {
-          return { ...hero, name: value };
-        }
-        return hero;
-      })
-    });
-  };
 
   render() {
-    if (this.state.isLoading) {
-      return <span>Loading...</span>;
-    }
     return (
-      <div>
+      <div className='Heroes'>
         <h2>My Heroes</h2>
-        <ul className="heroes">
-          {this.state.heroes &&
-            this.state.heroes.map((hero: Hero) => (
-              <HeroListItem
-                key={hero.id}
-                hero={hero}
-                isSelected={
-                  !!this.state.selectedHero &&
-                  hero.id === this.state.selectedHero!.id
-                }
-                onClick={() => this.setState({ selectedHero: hero })}
-              />
-            ))}
+        <ul className='heroes'>
+          <AppContext.Consumer>
+            {({ heroes }) =>
+              heroes.map((hero: Hero) => (
+                <li
+                  key={hero.id}
+                  className={this.state.selectedHero ? 'selected' : undefined}>
+                  <Link to={`/detail/${hero.id}`}>
+                    <span className='badge'>{hero.id}</span>
+                    {hero.name}
+                  </Link>
+                </li>
+              ))
+            }
+          </AppContext.Consumer>
         </ul>
-        {this.state.selectedHero.name && (
-          <HeroDetail
-            hero={this.state.selectedHero}
-            onChangeMod={this.onChangeMod}
-          />
-        )}
       </div>
     );
   }

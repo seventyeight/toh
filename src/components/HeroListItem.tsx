@@ -1,4 +1,5 @@
 import React, { ChangeEvent, Component, MouseEvent } from 'react';
+import { Link } from 'react-router-dom';
 import { Hero } from '../models';
 
 interface ItemProps {
@@ -14,12 +15,11 @@ export class HeroListItem extends Component<ItemProps> {
 
   render() {
     return (
-      <li
-        className={this.props.isSelected ? 'selected' : undefined}
-        onClick={this.props.onClick}
-      >
-        <span className="badge">{this.props.hero.id}</span>
-        {this.props.hero.name}
+      <li className={this.props.isSelected ? 'selected' : undefined}>
+        <Link to={`/detail/${this.props.hero.id}`}>
+          <span className="badge">{this.props.hero.id}</span>
+          {this.props.hero.name}
+        </Link>
       </li>
     );
   }
