@@ -15,7 +15,7 @@ export async function getHeroes(): Promise<Hero[]> {
   ];
 }
 
-export async function getHero(id: number): Promise<Hero> {
-  const heroes = await getHeroes();
-  return heroes.find(hero => hero.id === id) as Hero;
-}
+// export async function getHero(id: number): Promise<Hero> {
+//   const heroes = await getHeroes();
+//   return heroes.find(hero => hero.id === id) as Hero;
+// }
