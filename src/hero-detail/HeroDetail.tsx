@@ -39,7 +39,8 @@ import './HeroDetail.scss';
 // }
 
 export default function HeroDetail({
-  match
+  match,
+  history
 }: RouteComponentProps<{ id: string }>) {
   const { heroes, edit } = useContext(AppState);
   const hero = heroes.find(hero => hero.id === +match.params.id) as Hero;
@@ -62,6 +63,7 @@ export default function HeroDetail({
           />
         </label>
       </div>
+      <button onClick={history.goBack}>go back</button>
     </div>
   ) : (
     <div />
