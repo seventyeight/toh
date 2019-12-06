@@ -1,3 +1,7 @@
+# Tour of Heroes rewritten in React
+
+This is a port of https://angular.io/tutorial to React. Just to learn some React
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

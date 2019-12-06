@@ -8,5 +8,5 @@ interface AppContext {
 
 export const AppState = createContext<AppContext>({
   heroes: [],
-  edit: () => ''
+  edit: () => []
 });
